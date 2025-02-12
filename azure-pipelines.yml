@@ -1,4 +1,3 @@
-# Starter pipeline
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -17,6 +16,26 @@ stages:
     steps:
       - script: echo "Build"
         displayName: 'Build app'
+      - task: ServiceNow-DevOps-Agent-Artifact-Registration@1
+        inputs:
+          connectedServiceName: 'PDI'
+          artifactsPayload: |
+            {
+              "artifacts": [
+                {
+                   "name": "Test Artifact One",
+                   "version": "1.$(Build.BuildId)",
+                   "semanticVersion": "1.$(Build.BuildId).0",
+                   "repositoryName": "Test One"
+                },
+                {
+                   "name": "Test Artifact Two",
+                   "version": "1.$(Build.BuildId)",
+                   "semanticVersion": "1.$(Build.BuildId).0",
+                   "repositoryName": "Test One"
+                }
+              ]
+            }
 
 
 - stage: Test
